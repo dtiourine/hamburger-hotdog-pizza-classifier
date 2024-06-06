@@ -57,6 +57,9 @@ A convolutional neural network for classifying between hamburgers, hot dogs, and
     └── visualization  <- Scripts to create exploratory and results oriented visualizations
         └── visualize.py
 ```
+## Dataset
+
+Taken from subset of Food101 from torchvision.
 
 --------
 
