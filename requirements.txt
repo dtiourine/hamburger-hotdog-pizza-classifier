@@ -14,3 +14,13 @@ scikit-learn
 tqdm
 typer
 -e .
+
+#jupyterlab
+#Numpy
+#Pandas
+#Matplotlib
+#PyTorch
+#python-dotnev
+#pip install loguru
+#pip install tqdm
+#pip install opencv-python (unnecessary if cv2 not used in code)
