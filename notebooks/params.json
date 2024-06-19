@@ -6,6 +6,7 @@
     "dropout_rate": 0.3,
     "optimizer": "adam",
     "loss_function": "categorical_crossentropy",
-    "metrics": ["accuracy"]
+    "metrics": ["accuracy"],
+    "output_shape": 3
   }
 }
