@@ -13,35 +13,6 @@ import random
 
 app = typer.Typer()
 
-# def get_subset(image_path=data_path,
-#                data_splits=["train", "test"],
-#                target_classes=["pizza", "hot_dog", "hamburger"],
-#                amount=0.1,
-#                seed=42):
-#     random.seed(42)
-#     label_splits = {}
-#
-#     # Get labels
-#     for data_split in data_splits:
-#         print(f"[INFO] Creating image split for: {data_split}...")
-#         label_path = data_dir / "food-101" / "meta" / f"{data_split}.txt"
-#         with open(label_path, "r") as f:
-#             labels = [line.strip("\n") for line in f.readlines() if line.split("/")[0] in target_classes]
-#
-#             # Get random subset of target classes image ID's
-#         number_to_sample = round(amount * len(labels))
-#         print(f"[INFO] Getting random subset of {number_to_sample} images for {data_split}...")
-#         sampled_images = random.sample(labels, k=number_to_sample)
-#
-#         # Apply full paths
-#         image_paths = [pathlib.Path(str(image_path / sample_image) + ".jpg") for sample_image in sampled_images]
-#         label_splits[data_split] = image_paths
-#     return label_splits
-#
-#
-# label_splits = get_subset(amount=amount_to_get)
-# label_splits["train"][:10]
-
 def get_subset(image_path = RAW_DATA_DIR / "food-101" / "images",
                data_splits = ["train", "test"],
                target_classes = ["pizza", "hot_dog", "hamburger"],
@@ -59,11 +30,17 @@ def get_subset(image_path = RAW_DATA_DIR / "food-101" / "images",
 
             # Get random subset of target classes image ID's
         number_to_sample = round(amount * len(labels))
-        print(f"[INFO] Getting random subset of {number_to_sample} images for {data_split}...")
         sampled_images = random.sample(labels, k=number_to_sample)
 
         # Apply full paths
         image_paths = [pathlib.Path(str(image_path / sample_image) + ".jpg") for sample_image in sampled_images]
+
+        if data_split == "train":
+            split_idx = int((1 - valid_ratio) * len(image_paths))
+            random.shuffle(image_paths)
+            label_splits["valid"] = image_paths[split_idx:]
+            label_splits["train"] = image_paths[:split_idx]
+    else:
         label_splits[data_split] = image_paths
     return label_splits
 
@@ -100,7 +77,8 @@ def get_hhp_subset(amount_to_get=0.1):
 @app.command()
 def main():
     download_food101_dataset()
-    get_hhp_subset()
+    get_hhp_subset(amount_to_get=0.2)
+    get_hhp_subset(amount_to_get=1)
 
 if __name__ == "__main__":
     app()
