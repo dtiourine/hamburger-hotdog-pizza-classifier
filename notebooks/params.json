@@ -2,7 +2,7 @@
   "model_params": {
     "learning_rate": 0.001,
     "batch_size": 64,
-    "num_epochs": 25,
+    "num_epochs": 50,
     "dropout_rate": 0.3,
     "optimizer": "adam",
     "loss_function": "categorical_crossentropy",
