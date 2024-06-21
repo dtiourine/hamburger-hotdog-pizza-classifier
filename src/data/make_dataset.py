@@ -8,6 +8,7 @@ import torchvision.datasets as datasets
 import pathlib
 from src.config import PROCESSED_DATA_DIR, RAW_DATA_DIR
 
+import shutil
 import random
 
 app = typer.Typer()
@@ -76,7 +77,19 @@ def process_hhp_subset(amount_to_get=0.1):
     label_splits = get_subset(amount=amount_to_get)
     label_splits["train"][:10]
     print(label_splits["train"][:10])
-    #target_dir_name =  PROCESSED_DATA_DIR / f"pizza_hamburger_hotdog_{str(int(amount_to_get * 100))}_percent"
+    target_dir_name =  PROCESSED_DATA_DIR / f"pizza_hamburger_hotdog_{str(int(amount_to_get * 100))}_percent"
+    target_dir = pathlib.Path(target_dir_name)
+    if not target_dir.exists():
+        print(f"Creating directory: '{target_dir_name}'")
+        target_dir.mkdir(parents=True, exist_ok=True)
+    for image_split in label_splits.keys():
+        for image_path in label_splits[str(image_split)]:
+            dest_dir = target_dir / image_split / image_path.parent.stem / image_path.name
+            if not dest_dir.parent.is_dir():
+                dest_dir.parent.mkdir(parents=True, exist_ok=True)
+            print(f"[INFO] Copying {image_path} to {dest_dir}...")
+            shutil.copy2(image_path, dest_dir)
+
     #target_classes = ["pizza", "hot_dog", "hamburger"]
 
 @app.command()
