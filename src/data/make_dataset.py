@@ -17,7 +17,8 @@ def get_subset(image_path = RAW_DATA_DIR / "food-101" / "images",
                data_splits = ["train", "test"],
                target_classes = ["pizza", "hot_dog", "hamburger"],
                amount=0.1,
-               seed=42):
+               seed=42,
+               valid_ratio=0.4):
     random.seed(42)
     label_splits = {}
 
