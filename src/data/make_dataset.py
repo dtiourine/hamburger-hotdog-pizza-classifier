@@ -97,14 +97,10 @@ def get_hhp_subset(amount_to_get=0.1):
             logger.info(f"[INFO] Copying {image_path} to {dest_dir}...")
             shutil.copy2(image_path, dest_dir)
 
-
 @app.command()
 def main():
+    download_food101_dataset()
     get_hhp_subset()
-    #pass
-    # download_food101_dataset()
-
-
 
 if __name__ == "__main__":
-    app
+    app()
