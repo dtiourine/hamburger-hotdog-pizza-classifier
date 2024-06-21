@@ -73,32 +73,38 @@ def download_food101_dataset(data_dir=RAW_DATA_DIR):
     test_data = datasets.Food101(root=data_dir, split="test", download=True)
     logger.success(f"Finished downloading Food101 dataset to {data_dir}")
 
-def process_hhp_subset(amount_to_get=0.1):
+def get_hhp_subset(amount_to_get=0.1):
+    logger.info(f"Getting Hamburger-HotDog-Pizza subset of {amount_to_get:.2f}...")
     label_splits = get_subset(amount=amount_to_get)
-    label_splits["train"][:10]
-    print(label_splits["train"][:10])
+
     target_dir_name =  PROCESSED_DATA_DIR / f"pizza_hamburger_hotdog_{str(int(amount_to_get * 100))}_percent"
     target_dir = pathlib.Path(target_dir_name)
+    logger.info(f"Copy/Pasting Hamburger-HotDog-Pizza subset to {target_dir_name}")
+
     if not target_dir.exists():
-        print(f"Creating directory: '{target_dir_name}'")
+        logger.info(f"Creating directory: '{target_dir_name}'")
         target_dir.mkdir(parents=True, exist_ok=True)
+
     for image_split in label_splits.keys():
-        for image_path in label_splits[str(image_split)]:
+        # Add tqdm for progress tracking on image copying
+        for image_path in tqdm(label_splits[image_split], desc=f"Copying images in {image_split}", unit="file"):
+            image_path = pathlib.Path(image_path)
             dest_dir = target_dir / image_split / image_path.parent.stem / image_path.name
+
             if not dest_dir.parent.is_dir():
                 dest_dir.parent.mkdir(parents=True, exist_ok=True)
-            print(f"[INFO] Copying {image_path} to {dest_dir}...")
+
+            logger.info(f"[INFO] Copying {image_path} to {dest_dir}...")
             shutil.copy2(image_path, dest_dir)
 
-    #target_classes = ["pizza", "hot_dog", "hamburger"]
 
 @app.command()
 def main():
-    pass
+    get_hhp_subset()
+    #pass
     # download_food101_dataset()
 
 
 
 if __name__ == "__main__":
-    process_hhp_subset()
-    #app
+    app
