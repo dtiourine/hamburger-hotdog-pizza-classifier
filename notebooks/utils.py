@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import torchvision.models as models
+import wandb
 
 # def train_validate_model(num_epochs, train_loader, valid_loader, model, criterion, optimizer, device):
 #     for epoch in range(num_epochs):
@@ -54,6 +55,11 @@ from loguru import logger
 from tqdm import tqdm
 
 def train_validate_model(num_epochs, train_loader, valid_loader, model, criterion, optimizer, device):
+    #if not any(handler._name == "training_log" for handler in logger._core.handlers):
+        #logger.add("training_log.log", format="{time} {level} {message}", level="INFO", name="training_log")
+
+    wandb.watch(model, criterion, log="all", log_freq=10)
+
     for epoch in range(num_epochs):
         # Training phase
         model.train()  # Set the model to training mode
@@ -75,9 +81,12 @@ def train_validate_model(num_epochs, train_loader, valid_loader, model, criterio
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
 
+            wandb.log({"train_batch_loss": loss.item()})
+
         train_loss = running_loss / len(train_loader)
         train_accuracy = 100 * correct / total
         logger.info(f'Epoch {epoch + 1}, Train Loss: {train_loss:.4f}, Train Accuracy: {train_accuracy:.2f}%')
+        wandb.log({"train_loss": train_loss, "train_accuracy": train_accuracy, "epoch": epoch + 1})
 
         # Validation phase
         model.eval()  # Set the model to evaluation mode
@@ -95,10 +104,12 @@ def train_validate_model(num_epochs, train_loader, valid_loader, model, criterio
                 val_total += labels.size(0)
                 val_correct += (predicted == labels).sum().item()
 
+                wandb.log({"val_batch_loss": loss.item()})
+
         val_loss = val_running_loss / len(valid_loader)
         val_accuracy = 100 * val_correct / val_total
         logger.info(f'Epoch {epoch + 1}, Validation Loss: {val_loss:.4f}, Validation Accuracy: {val_accuracy:.2f}%')
-
+        wandb.log({"val_loss": val_loss, "val_accuracy": val_accuracy, "epoch": epoch + 1})
 
 def test_model(model, test_loader, criterion, device):
     model.eval()
