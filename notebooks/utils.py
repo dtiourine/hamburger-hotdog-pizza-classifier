@@ -2,6 +2,57 @@ import torch
 import torch.nn as nn
 import torchvision.models as models
 
+# def train_validate_model(num_epochs, train_loader, valid_loader, model, criterion, optimizer, device):
+#     for epoch in range(num_epochs):
+#         # Training phase
+#         model.train()  # Set the model to training mode
+#         running_loss = 0.0
+#         correct = 0
+#         total = 0
+#         for images, labels in train_loader:
+#             images, labels = images.to(device), labels.to(device)
+#             optimizer.zero_grad()  # Zero the parameter gradients
+#             outputs = model(images)
+#             loss = criterion(outputs, labels)
+#             loss.backward()
+#             optimizer.step()
+#
+#             running_loss += loss.item()
+#             _, predicted = torch.max(outputs.data, 1)
+#             total += labels.size(0)
+#             correct += (predicted == labels).sum().item()
+#
+#         train_loss = running_loss / len(train_loader)
+#         train_accuracy = 100 * correct / total
+#         print(f'Epoch {epoch + 1}, Train Loss: {train_loss:.4f}, Train Accuracy: {train_accuracy:.2f}%')
+#
+#         # Validation phase
+#         model.eval()  # Set the model to evaluation mode
+#         val_running_loss = 0.0
+#         val_correct = 0
+#         val_total = 0
+#         with torch.no_grad():  # Disable gradient calculation
+#             for images, labels in valid_loader:
+#                 images, labels = images.to(device), labels.to(device)
+#                 outputs = model(images)
+#                 loss = criterion(outputs, labels)
+#                 val_running_loss += loss.item()
+#                 _, predicted = torch.max(outputs.data, 1)
+#                 val_total += labels.size(0)
+#                 val_correct += (predicted == labels).sum().item()
+#
+#         val_loss = val_running_loss / len(valid_loader)
+#         val_accuracy = 100 * val_correct / val_total
+#         print(f'Epoch {epoch + 1}, Validation Loss: {val_loss:.4f}, Validation Accuracy: {val_accuracy:.2f}%')
+
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch.utils.data import DataLoader
+from torchvision import datasets, transforms, models
+from loguru import logger
+from tqdm import tqdm
+
 def train_validate_model(num_epochs, train_loader, valid_loader, model, criterion, optimizer, device):
     for epoch in range(num_epochs):
         # Training phase
@@ -9,7 +60,9 @@ def train_validate_model(num_epochs, train_loader, valid_loader, model, criterio
         running_loss = 0.0
         correct = 0
         total = 0
-        for images, labels in train_loader:
+
+        train_loader_tqdm = tqdm(train_loader, desc=f'Training Epoch {epoch+1}/{num_epochs}')
+        for images, labels in train_loader_tqdm:
             images, labels = images.to(device), labels.to(device)
             optimizer.zero_grad()  # Zero the parameter gradients
             outputs = model(images)
@@ -24,7 +77,7 @@ def train_validate_model(num_epochs, train_loader, valid_loader, model, criterio
 
         train_loss = running_loss / len(train_loader)
         train_accuracy = 100 * correct / total
-        print(f'Epoch {epoch + 1}, Train Loss: {train_loss:.4f}, Train Accuracy: {train_accuracy:.2f}%')
+        logger.info(f'Epoch {epoch + 1}, Train Loss: {train_loss:.4f}, Train Accuracy: {train_accuracy:.2f}%')
 
         # Validation phase
         model.eval()  # Set the model to evaluation mode
@@ -32,7 +85,8 @@ def train_validate_model(num_epochs, train_loader, valid_loader, model, criterio
         val_correct = 0
         val_total = 0
         with torch.no_grad():  # Disable gradient calculation
-            for images, labels in valid_loader:
+            valid_loader_tqdm = tqdm(valid_loader, desc=f'Validation Epoch {epoch+1}/{num_epochs}')
+            for images, labels in valid_loader_tqdm:
                 images, labels = images.to(device), labels.to(device)
                 outputs = model(images)
                 loss = criterion(outputs, labels)
@@ -43,7 +97,8 @@ def train_validate_model(num_epochs, train_loader, valid_loader, model, criterio
 
         val_loss = val_running_loss / len(valid_loader)
         val_accuracy = 100 * val_correct / val_total
-        print(f'Epoch {epoch + 1}, Validation Loss: {val_loss:.4f}, Validation Accuracy: {val_accuracy:.2f}%')
+        logger.info(f'Epoch {epoch + 1}, Validation Loss: {val_loss:.4f}, Validation Accuracy: {val_accuracy:.2f}%')
+
 
 def test_model(model, test_loader, criterion, device):
     model.eval()
