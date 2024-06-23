@@ -1,4 +1,7 @@
 import torch
+import torch.nn as nn
+import torchvision.models as models
+
 def train_validate_model(num_epochs, train_loader, valid_loader, model, criterion, optimizer, device):
     for epoch in range(num_epochs):
         # Training phase
@@ -55,3 +58,37 @@ def test_model(model, test_loader, criterion, device):
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
         print(f'Validation Accuracy: {100 * correct / total}%')
+
+
+def modify_model_output(model_name, num_classes, device):
+    """
+    Modify the output layer of a pre-trained model to match the number of classes.
+
+    Args:
+    - model_name (str): Name of the model to modify ('alexnet', 'vgg16', 'resnet50', 'inception_v3').
+    - num_classes (int): Number of output classes.
+
+    Returns:
+    - model (nn.Module): The modified model with the output layer matching the number of classes.
+    """
+    if model_name == 'alexnet':
+        model = models.alexnet(weights='DEFAULT')
+        model.classifier[6] = nn.Linear(model.classifier[6].in_features, num_classes)
+
+    elif model_name == 'vgg16':
+        model = models.vgg16(weights='DEFAULT')
+        model.classifier[6] = nn.Linear(model.classifier[6].in_features, num_classes)
+
+    elif model_name == 'resnet50':
+        model = models.resnet50(weights='DEFAULT')
+        model.fc = nn.Linear(model.fc.in_features, num_classes)
+
+    elif model_name == 'inception_v3':
+        model = models.inception_v3(weights='DEFAULT')
+        model.AuxLogits.fc = nn.Linear(model.AuxLogits.fc.in_features, num_classes)
+        model.fc = nn.Linear(model.fc.in_features, num_classes)
+
+    else:
+        raise ValueError("Unsupported model name. Choose from 'alexnet', 'vgg16', 'resnet50', 'inception_v3'.")
+
+    return model.to(device)
