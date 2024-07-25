@@ -75,7 +75,7 @@ from tqdm import tqdm
 
 def train_validate_model(num_epochs, train_loader, valid_loader, model, criterion, optimizer, device,
                          model_save_path):
-    wandb.watch(model, criterion, log="all", log_freq=10)
+    # wandb.watch(model, criterion, log="all", log_freq=10)
 
     best_val_accuracy = 0
 
@@ -100,11 +100,11 @@ def train_validate_model(num_epochs, train_loader, valid_loader, model, criterio
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
 
-            wandb.log({"train_batch_loss": loss.item()})
+            # wandb.log({"train_batch_loss": loss.item()})
 
         train_loss = running_loss / len(train_loader)
         train_accuracy = 100 * correct / total
-        wandb.log({"train_loss": train_loss, "train_accuracy": train_accuracy, "epoch": epoch + 1})
+        # wandb.log({"train_loss": train_loss, "train_accuracy": train_accuracy, "epoch": epoch + 1})
 
         model.eval()
         val_running_loss = 0.0
@@ -120,16 +120,17 @@ def train_validate_model(num_epochs, train_loader, valid_loader, model, criterio
                 val_total += labels.size(0)
                 val_correct += (predicted == labels).sum().item()
 
-                wandb.log({"val_batch_loss": loss.item()})
+                # wandb.log({"val_batch_loss": loss.item()})
 
         val_loss = val_running_loss / len(valid_loader)
         val_accuracy = 100 * val_correct / val_total
-        wandb.log({"val_loss": val_loss, "val_accuracy": val_accuracy, "epoch": epoch + 1})
+        # wandb.log({"val_loss": val_loss, "val_accuracy": val_accuracy, "epoch": epoch + 1})
 
         # Save the model if the validation accuracy is the best we've seen so far.
         if val_accuracy > best_val_accuracy:
             best_val_accuracy = val_accuracy
-            torch.save(model.state_dict(), model_save_path)
+            #torch.save(model.state_dict(), model_save_path)
+            torch.save(model, model_save_path)
 
         overall_progress_bar.set_postfix({
             'Best Val Accuracy': f'{best_val_accuracy:.2f}%',

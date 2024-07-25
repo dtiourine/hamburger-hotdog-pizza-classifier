@@ -252,3 +252,4 @@ fabric.properties
 
 # Saved Models
 /notebooks/models
+/models/*.pth

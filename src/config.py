@@ -24,6 +24,7 @@ FIGURES_DIR = REPORTS_DIR / "figures"
 # Hyperparameters
 BATCH_SIZE = 64
 
+
 # If tqdm is installed, configure loguru with tqdm.write
 # https://github.com/Delgan/loguru/issues/135
 try:
