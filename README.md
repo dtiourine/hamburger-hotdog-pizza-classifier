@@ -43,19 +43,16 @@ A convolutional neural network for classifying between hamburgers, hot dogs, and
     │
     ├── __init__.py    <- Makes src a Python module
     │
+    ├── config.py      <- Config file
+    │
     ├── data           <- Scripts to download or generate data
     │   └── make_dataset.py
     │
-    ├── features       <- Scripts to turn raw data into features for modeling
-    │   └── build_features.py
-    │
-    ├── models         <- Scripts to train models and then use trained models to make
+    └── models         <- Scripts to train models and then use trained models to make
     │   │                 predictions
-    │   ├── predict_model.py
-    │   └── train_model.py
-    │
-    └── visualization  <- Scripts to create exploratory and results oriented visualizations
-        └── visualize.py
+    │   ├── predict.py
+    │   └── train.py
+
 ```
 ## Dataset
 
