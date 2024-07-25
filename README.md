@@ -9,7 +9,6 @@ A convolutional neural network for classifying between hamburgers, hot dogs, and
 ## Project Organization
 
 ```
-├── LICENSE            <- Open-source license if one is chosen
 ├── Makefile           <- Makefile with convenience commands like `make data` or `make train`
 ├── README.md          <- The top-level README for developers using this project.
 ├── data
