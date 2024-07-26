@@ -26,12 +26,15 @@ LEARNING_RATE = 0.001
 MOMENTUM = 0.3
 WEIGHT_DECAY = 1e-2
 
+# Misc
+NUM_CLASSES = 3
+
 # If tqdm is installed, configure loguru with tqdm.write
 # https://github.com/Delgan/loguru/issues/135
-try:
-    from tqdm import tqdm
-
-    logger.remove(0)
-    logger.add(lambda msg: tqdm.write(msg, end=""), colorize=True)
-except ModuleNotFoundError:
-    pass
+# try:
+#     from tqdm import tqdm
+#
+#     logger.remove(0)
+#     logger.add(lambda msg: tqdm.write(msg, end=""), colorize=True)
+# except ModuleNotFoundError:
+#     pass

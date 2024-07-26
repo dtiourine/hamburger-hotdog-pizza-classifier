@@ -18,6 +18,11 @@ def train_validate_model(num_epochs, train_loader, valid_loader, model, criterio
 
         for images, labels in train_loader:
             images, labels = images.to(device), labels.to(device)
+
+            # Print the device of the images and labels
+            print(f"Images are on device: {images.device}")
+            print(f"Labels are on device: {labels.device}")
+
             optimizer.zero_grad()
             outputs = model(images)
             loss = criterion(outputs, labels)
@@ -78,35 +83,35 @@ def test_model(model, test_loader, device):
         print(f'Test Accuracy: {(100 * correct / total):.2f}%')
 
 
-def modify_model_output(model_name, num_classes, device):
-    """
-    Modify the output layer of a pre-trained model to match the number of classes.
-
-    Args:
-    - model_name (str): Name of the model to modify ('alexnet', 'vgg16', 'resnet50', 'inception_v3').
-    - num_classes (int): Number of output classes.
-
-    Returns:
-    - model (nn.Module): The modified model with the output layer matching the number of classes.
-    """
-    if model_name == 'alexnet':
-        model = models.alexnet(weights='DEFAULT')
-        model.classifier[6] = nn.Linear(model.classifier[6].in_features, num_classes)
-
-    elif model_name == 'vgg16':
-        model = models.vgg16(weights='DEFAULT')
-        model.classifier[6] = nn.Linear(model.classifier[6].in_features, num_classes)
-
-    elif model_name == 'resnet50':
-        model = models.resnet50(weights='DEFAULT')
-        model.fc = nn.Linear(model.fc.in_features, num_classes)
-
-    elif model_name == 'inception_v3':
-        model = models.inception_v3(weights='DEFAULT')
-        model.AuxLogits.fc = nn.Linear(model.AuxLogits.fc.in_features, num_classes)
-        model.fc = nn.Linear(model.fc.in_features, num_classes)
-
-    else:
-        raise ValueError("Unsupported model name. Choose from 'alexnet', 'vgg16', 'resnet50', 'inception_v3'.")
-
-    return model.to(device)
+# def modify_model_output(model_name, num_classes, device):
+#     """
+#     Modify the output layer of a pre-trained model to match the number of classes.
+#
+#     Args:
+#     - model_name (str): Name of the model to modify ('alexnet', 'vgg16', 'resnet50', 'inception_v3').
+#     - num_classes (int): Number of output classes.
+#
+#     Returns:
+#     - model (nn.Module): The modified model with the output layer matching the number of classes.
+#     """
+#     if model_name == 'alexnet':
+#         model = models.alexnet(weights='DEFAULT')
+#         model.classifier[6] = nn.Linear(model.classifier[6].in_features, num_classes)
+#
+#     elif model_name == 'vgg16':
+#         model = models.vgg16(weights='DEFAULT')
+#         model.classifier[6] = nn.Linear(model.classifier[6].in_features, num_classes)
+#
+#     elif model_name == 'resnet50':
+#         model = models.resnet50(weights='DEFAULT')
+#         model.fc = nn.Linear(model.fc.in_features, num_classes)
+#
+#     elif model_name == 'inception_v3':
+#         model = models.inception_v3(weights='DEFAULT')
+#         model.AuxLogits.fc = nn.Linear(model.AuxLogits.fc.in_features, num_classes)
+#         model.fc = nn.Linear(model.fc.in_features, num_classes)
+#
+#     else:
+#         raise ValueError("Unsupported model name. Choose from 'alexnet', 'vgg16', 'resnet50', 'inception_v3'.")
+#
+#     return model.to(device)
