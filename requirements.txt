@@ -3,16 +3,16 @@ flake8
 ipython
 isort
 jupyterlab
-loguru
+loguru~=0.7.2
 matplotlib
 notebook
 numpy
-pandas
+pandas~=2.2.2
 pip
-python-dotenv
+python-dotenv~=1.0.1
 scikit-learn
-tqdm
-typer
+tqdm~=4.66.4
+typer~=0.12.3
 -e .
 
 #jupyterlab
@@ -24,3 +24,7 @@ typer
 #pip install loguru
 #pip install tqdm
 #pip install opencv-python (unnecessary if cv2 not used in code)
+torchvision~=0.18.1+cu121
+src~=0.0.1
+torch~=2.3.1+cu121
+wandb~=0.17.5

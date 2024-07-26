@@ -141,7 +141,7 @@ def train_validate_model(num_epochs, train_loader, valid_loader, model, criterio
 
     overall_progress_bar.close()
 
-def test_model(model, test_loader, criterion, device):
+def test_model(model, test_loader, device):
     model.eval()
     with torch.no_grad():
         correct = 0
@@ -153,7 +153,7 @@ def test_model(model, test_loader, criterion, device):
             _, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
-        print(f'Validation Accuracy: {100 * correct / total}%')
+        print(f'Test Accuracy: {(100 * correct / total):.2f}%')
 
 
 def modify_model_output(model_name, num_classes, device):

@@ -23,7 +23,9 @@ FIGURES_DIR = REPORTS_DIR / "figures"
 
 # Hyperparameters
 BATCH_SIZE = 64
-
+LEARNING_RATE = 0.001
+MOMENTUM = 0.3
+WEIGHT_DECAY = 1e-2
 
 # If tqdm is installed, configure loguru with tqdm.write
 # https://github.com/Delgan/loguru/issues/135
