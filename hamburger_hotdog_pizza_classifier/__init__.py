@@ -1,1 +1,1 @@
-from src import config  # noqa: F401
+from hamburger_hotdog_pizza_classifier import config  # noqa: F401
