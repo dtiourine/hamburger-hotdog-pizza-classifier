@@ -5,9 +5,9 @@ build-backend = "flit_core.buildapi"
 [project]
 name = "src"
 version = "0.0.1"
-description = "A convolutional neural network for classifying images hamburgers, hot dogs, and pizza."
+description = "A convolutional neural network for classifying images of hamburgers, hot dogs, and pizza."
 authors = [
-  { name = "Daniel" },
+  { name = "Daniel Tiourine" },
 ]
 
 readme = "README.md"

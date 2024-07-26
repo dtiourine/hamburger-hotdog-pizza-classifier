@@ -29,14 +29,14 @@ clean:
 ## Lint using flake8 and black (use `make format` to do formatting)
 .PHONY: lint
 lint:
-	flake8 src
-	isort --check --diff --profile black src
-	black --check --config pyproject.toml src
+	flake8 hamburger-hotdog-pizza-classifier
+	isort --check --diff --profile black hamburger-hotdog-pizza-classifier
+	black --check --config pyproject.toml hamburger-hotdog-pizza-classifier
 
 ## Format source code with black
 .PHONY: format
 format:
-	black --config pyproject.toml src
+	black --config pyproject.toml hamburger-hotdog-pizza-classifier
 
 
 
@@ -60,7 +60,7 @@ create_environment:
 ## Make Dataset
 .PHONY: data
 data: requirements
-	$(PYTHON_INTERPRETER) src/data/make_dataset.py
+	$(PYTHON_INTERPRETER) hamburger-hotdog-pizza-classifier/dataset.py
 
 
 #################################################################################

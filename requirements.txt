@@ -1,30 +1,13 @@
-black
-flake8
-ipython
-isort
-jupyterlab
-loguru~=0.7.2
-matplotlib
-notebook
-numpy
-pandas~=2.2.2
-pip
-python-dotenv~=1.0.1
-scikit-learn
-tqdm~=4.66.4
-typer~=0.12.3
--e .
-
-#jupyterlab
-#Numpy
-#Pandas
-#Matplotlib
-#PyTorch
-#python-dotnev
-#pip install loguru
-#pip install tqdm
-#pip install opencv-python (unnecessary if cv2 not used in code)
-torchvision~=0.18.1+cu121
-src~=0.0.1
-torch~=2.3.1+cu121
-wandb~=0.17.5
+auto_mix_prep==0.2.0
+loguru==0.7.2
+black==24.4.2
+flake8==7.0.0
+isort==5.13.2
+matplotlib==3.9.1
+pandas==2.2.2
+Pillow==10.4.0
+python-dotenv==1.0.1
+torch==2.3.1+cu121
+torchvision==0.18.1+cu121
+tqdm==4.66.4
+typer==0.12.3
